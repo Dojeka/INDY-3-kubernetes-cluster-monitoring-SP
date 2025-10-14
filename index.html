@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Multimodal Prompt Interface</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 50px;
+            white-space: pre-wrap; /* Keeps formatting and wraps text */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🧠 Multimodal Prompt Tool</h1>
+    <hr>
+
+    <form id="multimodalForm">
+        <label for="textPrompt">Text Prompt (e.g., "Describe what's in this image.")</label>
+        <textarea id="textPrompt" rows="4" required></textarea>
+
+        <label for="imageFile">Image File (Optional)</label>
+        <input type="file" id="imageFile" accept="image/*">
+
+        <button type="submit">Send to Model</button>
+    </form>
+
+    <hr>
+
+    <h2>Model Response</h2>
+    <div id="response">Waiting for prompt...</div>
+
+    <script>
+        document.getElementById('multimodalForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const textPrompt = document.getElementById('textPrompt').value;
+            const imageFile = document.getElementById('imageFile').files[0];
+            const responseDiv = document.getElementById('response');
+
+            // 1. **Data Preparation (Conceptual)**
+            const formData = new FormData();
+            formData.append('prompt', textPrompt);
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            // Display loading state
+            responseDiv.innerHTML = 'Sending data to model... Please wait...';
+
+            // 2. **Simulate API Call (Replace this section with your actual fetch call)**
+            setTimeout(() => {
+                // --- Start of Simulated API Response Logic ---
+                let modelResponse = "Model received the text prompt: **" + textPrompt + "**";
+
+                if (imageFile) {
+                    modelResponse += "\n\nAND an image named: **" + imageFile.name + "** (" + imageFile.type + ").";
+                    modelResponse += "\n\n_Actual model would now process the image and text to generate a relevant answer._";
+                } else {
+                    modelResponse += "\n\n_Since no image was provided, the model would only generate a response based on the text._";
+                }
+
+                modelResponse += "\n\n**Response Status:** Success (Simulated)";
+                // --- End of Simulated API Response Logic ---
+
+                // 3. **Display Response**
+                responseDiv.innerHTML = modelResponse;
+
+            }, 2000); // Simulate a 2-second network/processing delay
+        });
+    </script>
+
+</body>
+</html>
