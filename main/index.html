@@ -58,7 +58,7 @@
             white-space: pre-wrap; /* Keeps formatting and wraps text */
         }
     </style>
-</head>
+    </head>
 <body>
 
     <h1>🧠 Multimodal Prompt Tool</h1>
@@ -71,7 +71,7 @@
         <label for="imageFile">Image File (Optional)</label>
         <input type="file" id="imageFile" accept="image/*">
 
-        <button type="submit">Send to Model</button>
+        <button type="submit" id="submitButton">Send to Model</button>
     </form>
 
     <hr>
@@ -79,45 +79,10 @@
     <h2>Model Response</h2>
     <div id="response">Waiting for prompt...</div>
 
-    <script>
-        document.getElementById('multimodalForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
 
-            const textPrompt = document.getElementById('textPrompt').value;
-            const imageFile = document.getElementById('imageFile').files[0];
-            const responseDiv = document.getElementById('response');
+    <h2 hidden >Stored JSON Data</h2>
+    <div hidden id="jsonOutput" class="json-output">No data stored yet</div>
 
-            // 1. **Data Preparation (Conceptual)**
-            const formData = new FormData();
-            formData.append('prompt', textPrompt);
-            if (imageFile) {
-                formData.append('image', imageFile);
-            }
-
-            // Display loading state
-            responseDiv.innerHTML = 'Sending data to model... Please wait...';
-
-            // 2. **Simulate API Call (Replace this section with your actual fetch call)**
-            setTimeout(() => {
-                // --- Start of Simulated API Response Logic ---
-                let modelResponse = "Model received the text prompt: **" + textPrompt + "**";
-
-                if (imageFile) {
-                    modelResponse += "\n\nAND an image named: **" + imageFile.name + "** (" + imageFile.type + ").";
-                    modelResponse += "\n\n_Actual model would now process the image and text to generate a relevant answer._";
-                } else {
-                    modelResponse += "\n\n_Since no image was provided, the model would only generate a response based on the text._";
-                }
-
-                modelResponse += "\n\n**Response Status:** Success (Simulated)";
-                // --- End of Simulated API Response Logic ---
-
-                // 3. **Display Response**
-                responseDiv.innerHTML = modelResponse;
-
-            }, 2000); // Simulate a 2-second network/processing delay
-        });
-    </script>
-
+    <script src="frontend.js"></script>
 </body>
 </html>
