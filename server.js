@@ -37,4 +37,27 @@ app.post("/api/prompt", upload.single("image"), (req, res) => {
   });
 });
 
+app.get("/api/latest-response", (res) => {
+fs.readFile("log.json", "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to read log.json" });
+    }
+
+    let logs = [];
+    try {
+      logs = JSON.parse(data);
+    } catch (e) {
+      return res.status(500).json({ error: "Invalid JSON format in log.json" });
+    }
+
+    if (logs.length === 0) {
+      return res.status(404).json({ error: "No logs found" });
+    }
+
+    // Send the **latest entry** (prompt + response)
+    const latestEntry = logs[logs.length - 1];
+    res.json(latestEntry);
+  });
+});
+
 app.listen(5000, () => console.log("🚀 Server running on http://localhost:5000"));

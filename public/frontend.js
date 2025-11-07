@@ -30,9 +30,15 @@ document.getElementById('modelSelect').addEventListener('change', function(event
             method: "POST",
             body: formData
             });
-
+            
             const data = await response.json();
             responseDiv.innerHTML = data.response || "No response received.";
+
+            fetch("http://localhost:5000/api/latest-response")
+            .then(res => res.json())
+            .then(data => {
+            responseDiv.innerHTML = data.model + ": " + data.response
+            });
         } catch (err) {
             responseDiv.innerHTML = `❌ Error: ${err.message}`;
         }

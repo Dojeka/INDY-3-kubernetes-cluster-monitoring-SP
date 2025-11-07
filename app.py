@@ -1,5 +1,7 @@
 from openai import OpenAI
 import json
+from datetime import datetime
+
 
 message = ""
 try:
@@ -26,6 +28,25 @@ chat_completion = client.chat.completions.create(
         "content": message
         }
     ],
-    model = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+    model = model
 )
-print(chat_completion.choices[0].message.content)
+
+response = "This means I got your prompt dude"
+
+current_timestamp = datetime.now()
+current_timestamp =current_datetime.timestamp()
+responseData = {
+    "model" : model,
+    "response" : response,
+    "timestamp": current_timestamp
+}
+
+try:
+    with open('/home/dom/Documents/vscodium/INDY-3-kubernetes-cluster-monitoring-SP/log.json', 'w') as file:
+        json.dump(responseData, file, indent=2)
+except FileNotFoundError:
+    print("Error: The file 'log.json' was not found.")
+except PermissionError:
+    print("Error: Permissions not granted to access 'log.json'")
+except IOError:
+    print("Error: cannot write to 'log.json'")
