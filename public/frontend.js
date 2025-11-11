@@ -1,45 +1,45 @@
 function toggleMenu() {
-    const menu = document.querySelector(".menu-links")
-    const icon = document.querySelector(".hamburger-icon")
-    menu.classList.toggle("open")
-    icon.classList.toggle("open")
-} 
+    const menu = document.querySelector(".menu-links");
+    const icon = document.querySelector(".hamburger-icon");
+    menu.classList.toggle("open");
+    icon.classList.toggle("open");
+}
 
-document.getElementById('modelSelect').addEventListener('change', function(event) {
+document.addEventListener("DOMContentLoaded", () => {
+    const responseDiv = document.getElementById("response");
 
-});
+    document.getElementById("submitButton").addEventListener("click", async (event) => {
+        event.preventDefault();
 
- document.getElementById('multimodalForm').addEventListener('submit',async function(event) {
-            event.preventDefault(); // Prevent the default form submission
+        const textPrompt = document.getElementById("textPrompt").value.trim();
+        const imageFile = document.getElementById("imageFile").files[0];
+        const modelChoice = document.getElementById("modelSelect").value;
 
-            const textPrompt = document.getElementById('textPrompt').value;
-            const imageFile = document.getElementById('imageFile').files[0];
-            const modelChoice = document.getElementById('modelSelect').value;
-            const responseDiv = document.getElementById('response');
-                
-            // Display loading state
-            responseDiv.innerHTML = 'Sending data to model... Please wait...';
-
-            const formData = new FormData();
-            formData.append("prompt", textPrompt);
-            formData.append("model", modelChoice);
-            if (imageFile) formData.append("image", imageFile);
-                
-            try {
-            const response = await fetch("http://localhost:5000/api/prompt", {
-            method: "POST",
-            body: formData
-            });
-            
-            const data = await response.json();
-            responseDiv.innerHTML = data.response || "No response received.";
-
-            fetch("http://localhost:5000/api/latest-response")
-            .then(res => res.json())
-            .then(data => {
-            responseDiv.innerHTML = data.model + ": " + data.response
-            });
-        } catch (err) {
-            responseDiv.innerHTML = `❌ Error: ${err.message}`;
+        if (!textPrompt) {
+            responseDiv.innerHTML = `<p style="color:red;">Please enter a prompt first.</p>`;
+            return;
         }
-        });
+
+        const formData = new FormData();
+        formData.append("prompt", textPrompt);
+        formData.append("model", modelChoice);
+        if (imageFile) formData.append("image", imageFile);
+
+        try {
+            const response = await fetch("http://localhost:5000/api/prompt", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error("Failed to send prompt");
+            const result = await response.json();
+
+            responseDiv.innerHTML = `<strong>${result.model}</strong>: ${result.response}`;
+        } catch (err) {
+            responseDiv.innerHTML = `
+            <p style="color:red;">Error: ${err.message}</p>
+            <p>Make sure your backend is running and Ollama is active.</p>
+            `;
+        }
+    });
+});

@@ -1,52 +1,60 @@
 from openai import OpenAI
 import json
+import sys
 from datetime import datetime
 
+LOG_PATH = '/home/dom/Documents/vscodium/INDY-3-kubernetes-cluster-monitoring-SP/log.json'
 
-message = ""
-try:
-    with open('/home/dom/Documents/vscodium/INDY-3-kubernetes-cluster-monitoring-SP/log.json', 'r') as file:
-        data = json.load(file)
-        entry = data[-1]
-        message = entry["prompt"]
-        model = entry["model"]
-except FileNotFoundError:
-    print("Error: The file 'log.json' was not found.")
-except json.JSONDecodeError as e:
-    print(f"Error: Invalid JSON format - {e}")
-except KeyError as e:
-    print(f"Error: Expected key {e} not found in JSON.")
+def main():
+    try:
+        # Read latest prompt and model
+        with open(LOG_PATH, 'r') as file:
+            data = json.load(file)
+            if not data:
+                print(json.dumps({"error": "log.json is empty"}))
+                return
+            entry = data[-1]
+            message = entry.get("prompt", "")
+            model = entry.get("model", "")
+    except FileNotFoundError:
+        print(json.dumps({"error": "The file 'log.json' was not found."}))
+        return
+    except json.JSONDecodeError as e:
+        print(json.dumps({"error": f"Invalid JSON format - {e}"}))
+        return
+    except KeyError as e:
+        print(json.dumps({"error": f"Expected key {e} not found in JSON."}))
+        return
 
-client = OpenAI(
-    base_url = "http://localhost:8000/v1",
-    api_key = "key"
-)
-chat_completion = client.chat.completions.create(
-    messages=[
-        {
-        "role": "user",
-        "content": message
-        }
-    ],
-    model = model
-)
+    # Initialize OpenAI client
+    client = OpenAI(
+        base_url="http://localhost:11434/v1",
+        api_key="key"
+    )
 
-response = "This means I got your prompt dude"
+    try:
+        # Send chat request
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "user", "content": message}
+            ],
+            model=model
+        )
+        # Extract response
+        response = chat_completion.choices[0].message.content.strip()
+    except Exception as e:
+        response = f"Error contacting model: {e}"
 
-current_timestamp = datetime.now()
-current_timestamp =current_datetime.timestamp()
-responseData = {
-    "model" : model,
-    "response" : response,
-    "timestamp": current_timestamp
-}
+    # Create structured response
+    current_timestamp = datetime.now().timestamp()
+    responseData = {
+        "model": model,
+        "response": response,
+        "timestamp": current_timestamp
+    }
 
-try:
-    with open('/home/dom/Documents/vscodium/INDY-3-kubernetes-cluster-monitoring-SP/log.json', 'w') as file:
-        json.dump(responseData, file, indent=2)
-except FileNotFoundError:
-    print("Error: The file 'log.json' was not found.")
-except PermissionError:
-    print("Error: Permissions not granted to access 'log.json'")
-except IOError:
-    print("Error: cannot write to 'log.json'")
+    # ✅ Instead of writing to file, print JSON back to Node
+    print(json.dumps(responseData))
+
+if __name__ == "__main__":
+    main()

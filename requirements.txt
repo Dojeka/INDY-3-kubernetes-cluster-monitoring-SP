@@ -1,4 +1,3 @@
 torch
 transformers
-ollama
 huggingface-hub

@@ -4,6 +4,7 @@ import fs from "fs";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
+import { execFile } from "child_process";
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -25,20 +26,35 @@ app.post("/api/prompt", upload.single("image"), (req, res) => {
     timestamp: new Date().toISOString(),
   };
 
-  // Read, append, and save log
   fs.readFile("log.json", "utf8", (err, data) => {
     let logs = [];
     if (!err && data) logs = JSON.parse(data);
     logs.push(logEntry);
     fs.writeFile("log.json", JSON.stringify(logs, null, 2), (err) => {
       if (err) return res.status(500).json({ error: "Failed to write log." });
-      res.json({ response: `✅ Prompt logged successfully for model ${model}` });
+
+      const pythonScript = path.join(__dirname, "app.py");
+      execFile("python3", [pythonScript], (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Execution error: ${error}`);
+          return res.status(500).json({ error: "Python execution failed." });
+        }
+        if (stderr) console.error(`stderr: ${stderr}`);
+        console.log(`stdout: ${stdout}`);
+
+        try {
+          const response = JSON.parse(stdout);
+          res.json(response);
+        } catch {
+          res.json({ response: stdout || `Prompt logged successfully for model ${model}` });
+        }
+      });
     });
   });
 });
 
-app.get("/api/latest-response", (res) => {
-fs.readFile("log.json", "utf8", (err, data) => {
+app.get("/api/latest-response", (req, res) => {
+  fs.readFile("log.json", "utf8", (err, data) => {
     if (err) {
       return res.status(500).json({ error: "Failed to read log.json" });
     }
@@ -54,10 +70,9 @@ fs.readFile("log.json", "utf8", (err, data) => {
       return res.status(404).json({ error: "No logs found" });
     }
 
-    // Send the **latest entry** (prompt + response)
     const latestEntry = logs[logs.length - 1];
     res.json(latestEntry);
   });
 });
 
-app.listen(5000, () => console.log("🚀 Server running on http://localhost:5000"));
+app.listen(5000, () => console.log("Server running on http://localhost:5000"));
