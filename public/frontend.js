@@ -43,7 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error("Failed to send prompt");
 
             const data = await response.json();
-            responseDiv.innerHTML = `<strong>${data.model}</strong>: ${data.response}`;
+            responseDiv.innerHTML = "Sending to model...";
+
+            responseDiv.innerHTML = `<strong>${JSON.stringify(data.model)}</strong>: ${JSON.stringify(data.response)}`;
         } catch (error) {
             responseDiv.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
         }

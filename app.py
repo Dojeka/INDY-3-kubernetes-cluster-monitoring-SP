@@ -53,7 +53,6 @@ def main():
         "timestamp": current_timestamp
     }
 
-    # ✅ Instead of writing to file, print JSON back to Node
     print(json.dumps(responseData))
 
 if __name__ == "__main__":

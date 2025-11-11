@@ -45,7 +45,7 @@ app.post("/api/prompt", upload.single("image"), (req, res) => {
         try {
           const response = JSON.parse(stdout);
           console.log(JSON.stringify(response.response))
-          res.send(JSON.stringify(response));
+          res.send(response);
         } catch {
           res.json({ response: stdout || `Prompt logged successfully for model ${model}` });
         }
