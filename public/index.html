@@ -64,7 +64,7 @@
     <h1>Multimodal Prompt Tool</h1>
     <hr>
 
-    <form id="multimodalForm">
+    <form id="multimodalForm" onsubmit="false">
         <label for="textPrompt">Text Prompt (e.g., "Describe what's in this image.")</label>
         <textarea id="textPrompt" rows="4" required></textarea>
 
@@ -80,13 +80,14 @@
             <option value="phi-3">Phi-3 (Microsoft)</option>
         </select>
 
-        <button type="button" id="submitButton">Send to Model</button>
     </form>
+        <button type="button" id="submitButton">Send to Model</button>
+
 
     <hr>
 
     <h2>Model Response</h2>
-    <div id="response">Say Something to begin the chat!</div>
+    <div id="response"></div>
 
     <script src="frontend.js"></script>
 </body>
