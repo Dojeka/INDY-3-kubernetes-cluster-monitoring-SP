@@ -1,8 +1,242 @@
 [
   {
-    "prompt": "hello",
+    "prompt": "Whatup",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T14:43:23.008Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T14:45:19.750Z"
+  },
+  {
+    "prompt": "name an exotic animal to keep as pets",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T14:48:49.199Z"
+  },
+  {
+    "prompt": "This is just a test",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:05:27.971Z"
+  },
+  {
+    "prompt": "Testing",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:07:18.459Z"
+  },
+  {
+    "prompt": "Just want your response to display in my website",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:08:27.824Z"
+  },
+  {
+    "prompt": "Testing",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:09:12.594Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:10:47.062Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:11:15.178Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:13:12.327Z"
+  },
+  {
+    "prompt": "Hello",
     "model": "gpt-4",
     "image": null,
-    "timestamp": "2025-11-07T04:28:44.728Z"
+    "timestamp": "2025-11-11T15:26:25.221Z"
+  },
+  {
+    "prompt": "Testing",
+    "model": "gpt-4",
+    "image": null,
+    "timestamp": "2025-11-11T15:27:41.126Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:33:25.597Z"
+  },
+  {
+    "prompt": "Submit",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:38:33.993Z"
+  },
+  {
+    "prompt": "Ty again",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:38:47.911Z"
+  },
+  {
+    "prompt": "Why is it not displaying your response\r\n\r\nwindow.addEventListener(\"beforeunload\", () => {\r\n    console.log(\"Page is reloading!\");\r\n});\r\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", () => {\r\n    const button = document.getElementById(\"submitButton\");\r\n    const form = document.getElementById(\"multimodalForm\");\r\n    const responseDiv = document.getElementById(\"response\");\r\n\r\n    // Extra protection — stop form submission globally\r\n    form.addEventListener(\"submit\", (e) => {\r\n        e.preventDefault();\r\n        e.stopPropagation();\r\n    });\r\n\r\n    button.addEventListener(\"click\", async (event) => {\r\n        event.preventDefault();\r\n        event.stopPropagation();\r\n\r\n        const textPrompt = document.getElementById(\"textPrompt\").value.trim();\r\n        const imageFile = document.getElementById(\"imageFile\").files[0];\r\n        const modelChoice = document.getElementById(\"modelSelect\").value;\r\n\r\n        responseDiv.innerHTML = \"Sending to model...\";\r\n\r\n        if (!textPrompt) {\r\n            responseDiv.innerHTML = `<p style=\"color:red;\">Please enter a prompt first.</p>`;\r\n            return;\r\n        }\r\n\r\n        const formData = new FormData();\r\n        formData.append(\"prompt\", textPrompt);\r\n        formData.append(\"model\", modelChoice);\r\n        if (imageFile) formData.append(\"image\", imageFile);\r\n\r\n        try {\r\n            const response = await fetch(\"http://localhost:5000/api/prompt\", {\r\n                method: \"POST\",\r\n                body: formData,\r\n            });\r\n\r\n            if (!response.ok) throw new Error(\"Failed to send prompt\");\r\n\r\n            const data = await response.json();\r\n            responseDiv.innerHTML = `<strong>${data.model}</strong>: ${data.response}`;\r\n        } catch (error) {\r\n            responseDiv.innerHTML = `<p style=\"color:red;\">Error: ${error.message}</p>`;\r\n        }\r\n    });\r\n});",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:39:24.335Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:51:28.584Z"
+  },
+  {
+    "prompt": "Lets try again",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:53:07.554Z"
+  },
+  {
+    "prompt": "Still does not paste your response on my html page",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:53:44.508Z"
+  },
+  {
+    "prompt": "window.addEventListener(\"beforeunload\", () => {\r\n    console.log(\"Page is reloading!\");\r\n});\r\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", () => {\r\n    const button = document.getElementById(\"submitButton\");\r\n    const form = document.getElementById(\"multimodalForm\");\r\n    const responseDiv = document.getElementById(\"response\");\r\n\r\n    // Extra protection — stop form submission globally\r\n    form.addEventListener(\"submit\", (e) => {\r\n        e.preventDefault();\r\n        e.stopPropagation();\r\n    });\r\n\r\n    button.addEventListener(\"click\", async (event) => {\r\n        event.preventDefault();\r\n        event.stopPropagation();\r\n\r\n        const textPrompt = document.getElementById(\"textPrompt\").value.trim();\r\n        const imageFile = document.getElementById(\"imageFile\").files[0];\r\n        const modelChoice = document.getElementById(\"modelSelect\").value;\r\n\r\n        if (!textPrompt) {\r\n            responseDiv.innerHTML = `<p style=\"color:red;\">Please enter a prompt first.</p>`;\r\n            return;\r\n        }\r\n\r\n        const formData = new FormData();\r\n        formData.append(\"prompt\", textPrompt);\r\n        formData.append(\"model\", modelChoice);\r\n        if (imageFile) formData.append(\"image\", imageFile);\r\n\r\n        try {\r\n            \r\n            responseDiv.innerHTML = \"Sending to model...\";\r\n\r\n            const response = await fetch(\"http://localhost:5000/api/prompt\", {\r\n                method: \"POST\",\r\n                body: formData,\r\n            });\r\n\r\n            if (!response.ok) throw new Error(\"Failed to send prompt\");\r\n\r\n            const data = await response.json();\r\n            responseDiv.innerHTML = `<strong>${data.model}</strong>: ${data.response}`;\r\n        } catch (error) {\r\n            responseDiv.innerHTML = `<p style=\"color:red;\">Error: ${error.message}</p>`;\r\n        }\r\n    });\r\n});\r\nWhy does your response not display on my html through this js file",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:54:45.245Z"
+  },
+  {
+    "prompt": "Hi",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T15:55:01.698Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T17:35:17.401Z"
+  },
+  {
+    "prompt": "How do I send your responses to my javascript frontend from a node server",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:04:06.983Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:16:58.078Z"
+  },
+  {
+    "prompt": "What is going on in the world today",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:18:12.636Z"
+  },
+  {
+    "prompt": "What is going on today",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:18:42.054Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:21:50.784Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:25:39.357Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:29:36.976Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:33:02.625Z"
+  },
+  {
+    "prompt": "hi",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:35:51.350Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:42:27.772Z"
+  },
+  {
+    "prompt": "Im going through hell",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:43:05.822Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:46:44.516Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:52:52.959Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T18:56:42.843Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T19:02:46.100Z"
+  },
+  {
+    "prompt": "Hello",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T19:03:24.246Z"
+  },
+  {
+    "prompt": "Hello, what is your objective",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T20:13:36.030Z"
+  },
+  {
+    "prompt": "Hello, what is your objective",
+    "model": "llama3.1",
+    "image": null,
+    "timestamp": "2025-11-11T20:31:00.401Z"
   }
 ]

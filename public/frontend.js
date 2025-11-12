@@ -1,45 +1,53 @@
-function toggleMenu() {
-    const menu = document.querySelector(".menu-links")
-    const icon = document.querySelector(".hamburger-icon")
-    menu.classList.toggle("open")
-    icon.classList.toggle("open")
-} 
-
-document.getElementById('modelSelect').addEventListener('change', function(event) {
-
+window.addEventListener("beforeunload", () => {
+    console.log("Page is reloading!");
 });
 
- document.getElementById('multimodalForm').addEventListener('submit',async function(event) {
-            event.preventDefault(); // Prevent the default form submission
 
-            const textPrompt = document.getElementById('textPrompt').value;
-            const imageFile = document.getElementById('imageFile').files[0];
-            const modelChoice = document.getElementById('modelSelect').value;
-            const responseDiv = document.getElementById('response');
-                
-            // Display loading state
-            responseDiv.innerHTML = 'Sending data to model... Please wait...';
+document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("submitButton");
+    const form = document.getElementById("multimodalForm");
+    const responseDiv = document.getElementById("response");
 
-            const formData = new FormData();
-            formData.append("prompt", textPrompt);
-            formData.append("model", modelChoice);
-            if (imageFile) formData.append("image", imageFile);
-                
-            try {
-            const response = await fetch("http://localhost:5000/api/prompt", {
-            method: "POST",
-            body: formData
-            });
-            
-            const data = await response.json();
-            responseDiv.innerHTML = data.response || "No response received.";
+    // Extra protection — stop form submission globally
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
 
-            fetch("http://localhost:5000/api/latest-response")
-            .then(res => res.json())
-            .then(data => {
-            responseDiv.innerHTML = data.model + ": " + data.response
-            });
-        } catch (err) {
-            responseDiv.innerHTML = `❌ Error: ${err.message}`;
+    button.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const textPrompt = document.getElementById("textPrompt").value.trim();
+        const imageFile = document.getElementById("imageFile").files[0];
+        const modelChoice = document.getElementById("modelSelect").value;
+
+        if (!textPrompt) {
+            responseDiv.innerHTML = `<p style="color:red;">Please enter a prompt first.</p>`;
+            return;
         }
-        });
+
+        const formData = new FormData();
+        formData.append("prompt", textPrompt);
+        formData.append("model", modelChoice);
+        if (imageFile) formData.append("image", imageFile);
+
+        responseDiv.innerHTML = "Sending to model...";
+
+        try {
+            const response = await fetch("http://localhost:5000/api/prompt", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error("Failed to send prompt");
+
+            const data = await response.json();
+            responseDiv.innerHTML = "Sending to model...";
+
+            responseDiv.innerHTML = `<strong>${JSON.stringify(data.model)}</strong>: ${JSON.stringify(data.response)}`;
+        } catch (error) {
+            responseDiv.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+        }
+    });
+});

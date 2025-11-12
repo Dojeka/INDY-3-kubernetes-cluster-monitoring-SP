@@ -14,27 +14,22 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+        h1 { text-align: center; color: #333; }
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: #555;
         }
-        textarea, input[type="file"] {
+        textarea, input[type="file"], select {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            box-sizing: border-box;
         }
-        textarea {
-            resize: vertical;
-        }
+        textarea { resize: vertical; }
         button {
             background-color: #007bff;
             color: white;
@@ -45,9 +40,7 @@
             font-size: 16px;
             transition: background-color 0.3s;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
+        button:hover { background-color: #0056b3; }
         #response {
             margin-top: 20px;
             padding: 15px;
@@ -55,43 +48,87 @@
             border-radius: 4px;
             background-color: #f9f9f9;
             min-height: 300px;
-            white-space: pre-wrap; /* Keeps formatting and wraps text */
+            white-space: pre-wrap;
         }
     </style>
-    </head>
+</head>
 <body>
-
-    <h1>🧠 Multimodal Prompt Tool</h1>
+    <h1>Multimodal Prompt Tool</h1>
     <hr>
 
-    <form id="multimodalForm">
+    <div id="promptSection">
         <label for="textPrompt">Text Prompt (e.g., "Describe what's in this image.")</label>
         <textarea id="textPrompt" rows="4" required></textarea>
 
         <label for="imageFile">Image File (Optional)</label>
         <input type="file" id="imageFile" accept="image/*">
 
-          <label for="modelSelect">Choose a Model</label>
+        <label for="modelSelect">Choose a Model</label>
         <select id="modelSelect" required>
+            <option value="llama3.1">Llama (Meta)</option>
             <option value="gpt-4">GPT (OpenAI)</option>
-            <option value="llama3">Llama (Meta)</option>
             <option value="gemini3">Gemini (Google)</option>
             <option value="deepseekv3-0324">Deepseek</option>
             <option value="phi-3">Phi-3 (Microsoft)</option>
         </select>
 
-        <button type="submit" id="submitButton">Send to Model</button>
-    </form>
+        <button type="button" id="submitButton">Send to Model</button>
+    </div>
 
     <hr>
-
     <h2>Model Response</h2>
-    <div id="response">Hi, what can I do for you today?</div>
+    <div id="response"></div>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const button = document.getElementById("submitButton");
+        const responseDiv = document.getElementById("response");
 
-    <h2 hidden >Stored JSON Data</h2>
-    <div hidden id="jsonOutput" class="json-output">No data stored yet</div>
+        button.addEventListener("click", async () => {
+            const textPrompt = document.getElementById("textPrompt").value.trim();
+            const imageFile = document.getElementById("imageFile").files[0];
+            const modelChoice = document.getElementById("modelSelect").value;
 
-    <script src="frontend.js"></script>
+            if (!textPrompt) {
+                responseDiv.innerHTML = `<p style="color:red;">Please enter a prompt first.</p>`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("prompt", textPrompt);
+            formData.append("model", modelChoice);
+            if (imageFile) formData.append("image", imageFile);
+
+            button.disabled = true;
+            responseDiv.innerHTML = `<em>⏳ Sending to model, please wait...</em>`;
+
+            try {
+                const response = await fetch("http://localhost:5000/api/prompt", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(errText || "Failed to send prompt");
+                }
+
+                const result = await response.json();
+                console.log(result);
+
+                responseDiv.innerHTML = `
+                    <div style="padding:10px;">
+                        <strong>Model:</strong> ${result.model}<br><br>
+                        <strong>Response:</strong><br>${result.response}
+                    </div>
+                `;
+            } catch (error) {
+                responseDiv.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            } finally {
+                button.disabled = false;
+            }
+        });
+    });
+    </script>
 </body>
 </html>

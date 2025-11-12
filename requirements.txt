@@ -1,6 +1,4 @@
-torch==2.8.0
-xformers==0.0.32.post1
-flashinfer-python==0.4.1
-transformers >= 4.56.0
-fastapi[standard] >= 0.115.0
-tiktoken >= 0.6.0
+torch
+transformers
+ollama
+huggingface-hub
