@@ -1,0 +1,27 @@
+{
+  "name": "indy-3-kubernetes-cluster-monitoring-sp",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dojeka/INDY-3-kubernetes-cluster-monitoring-SP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dojeka/INDY-3-kubernetes-cluster-monitoring-SP/issues"
+  },
+  "homepage": "https://github.com/Dojeka/INDY-3-kubernetes-cluster-monitoring-SP#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}

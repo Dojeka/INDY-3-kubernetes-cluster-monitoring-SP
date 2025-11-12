@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Multimodal Prompt Interface</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 300px;
+            white-space: pre-wrap; /* Keeps formatting and wraps text */
+        }
+    </style>
+    </head>
+<body>
+
+    <h1>🧠 Multimodal Prompt Tool</h1>
+    <hr>
+
+    <form id="multimodalForm">
+        <label for="textPrompt">Text Prompt (e.g., "Describe what's in this image.")</label>
+        <textarea id="textPrompt" rows="4" required></textarea>
+
+        <label for="imageFile">Image File (Optional)</label>
+        <input type="file" id="imageFile" accept="image/*">
+
+          <label for="modelSelect">Choose a Model</label>
+        <select id="modelSelect" required>
+            <option value="gpt-4">GPT (OpenAI)</option>
+            <option value="llama3">Llama (Meta)</option>
+            <option value="gemini3">Gemini (Google)</option>
+            <option value="deepseekv3-0324">Deepseek</option>
+            <option value="phi-3">Phi-3 (Microsoft)</option>
+        </select>
+
+        <button type="submit" id="submitButton">Send to Model</button>
+    </form>
+
+    <hr>
+
+    <h2>Model Response</h2>
+    <div id="response">Hi, what can I do for you today?</div>
+
+
+    <h2 hidden >Stored JSON Data</h2>
+    <div hidden id="jsonOutput" class="json-output">No data stored yet</div>
+
+    <script src="frontend.js"></script>
+</body>
+</html>
