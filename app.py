@@ -53,12 +53,7 @@ def main():
         "timestamp": current_timestamp
     }
 
-try:
-    with open('/home/dom/Documents/vscodium/INDY-3-kubernetes-cluster-monitoring-SP/log.json', 'w') as file:
-        json.dump(responseData, file, indent=2)
-except FileNotFoundError:
-    print("Error: The file 'log.json' was not found.")
-except PermissionError:
-    print("Error: Permissions not granted to access 'log.json'")
-except IOError:
-    print("Error: cannot write to 'log.json'")
+    print(json.dumps(responseData))
+
+if __name__ == "__main__":
+    main()
