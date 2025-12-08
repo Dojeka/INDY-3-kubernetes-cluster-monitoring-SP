@@ -1,26 +1,27 @@
 // server.js
 import express from "express";
-import fs from "fs";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
 import { execFile } from "child_process";
-import { fileURLToPath } from "url";
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const PORT  = 5000;
+
+const STATIC_DIR = path.join(process.cwd(), 'public');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+
+//serve the static files
+app.use(express.static(STATIC_DIR));
 
 const upload = multer({ dest: "uploads/" });
 
 app.options("/api/prompt", cors());
 app.post("/api/prompt", upload.single("image"), (req, res) => {
   const { prompt, model } = req.body;
-  const args = [path.join(__dirname, "app.py")];
+  const args = [path.join(process.cwd(), "app.py")];
 
   if (!prompt || !model) {
     return res.status(400).json({ error: "Prompt and model are required." });
@@ -48,4 +49,4 @@ app.post("/api/prompt", upload.single("image"), (req, res) => {
     }
   });
 });
-app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

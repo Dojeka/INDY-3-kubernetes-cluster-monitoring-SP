@@ -21,8 +21,7 @@
   "homepage": "https://github.com/Dojeka/INDY-3-kubernetes-cluster-monitoring-SP#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "multer": "^2.0.2"
-  },
-  "devDependencies": {}
+  }
 }
