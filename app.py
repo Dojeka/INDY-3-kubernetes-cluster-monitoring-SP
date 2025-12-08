@@ -2,29 +2,19 @@ from openai import OpenAI
 import json
 import sys
 from datetime import datetime
+import argparse
 
 LOG_PATH = '/home/dom/Documents/vscodium/INDY-3-kubernetes-cluster-monitoring-SP/log.json'
 
 def main():
-    try:
-        # Read latest prompt and model
-        with open(LOG_PATH, 'r') as file:
-            data = json.load(file)
-            if not data:
-                print(json.dumps({"error": "log.json is empty"}))
-                return
-            entry = data[-1]
-            message = entry.get("prompt", "")
-            model = entry.get("model", "")
-    except FileNotFoundError:
-        print(json.dumps({"error": "The file 'log.json' was not found."}))
-        return
-    except json.JSONDecodeError as e:
-        print(json.dumps({"error": f"Invalid JSON format - {e}"}))
-        return
-    except KeyError as e:
-        print(json.dumps({"error": f"Expected key {e} not found in JSON."}))
-        return
+    parser = argparse.ArgumentParser(description='Process inputs.')
+    parser.add_argument('--prompt', type=str, required=True)
+    parser.add_argument('--model', type=str, required=True)
+
+    args = parser.parse_args()
+    
+    message = args.prompt
+    model = args.model
 
     # Initialize OpenAI client
     client = OpenAI(

@@ -84,7 +84,8 @@
         const button = document.getElementById("submitButton");
         const responseDiv = document.getElementById("response");
 
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async (e) => {
+            e.preventDefault();
             const textPrompt = document.getElementById("textPrompt").value.trim();
             const imageFile = document.getElementById("imageFile").files[0];
             const modelChoice = document.getElementById("modelSelect").value;
@@ -116,12 +117,12 @@
                 const result = await response.json();
                 console.log(result);
 
+                const formattedResponse = result.response.replace(/\n/g, '<br>');
+
                 responseDiv.innerHTML = `
-                    <div style="padding:10px;">
                         <strong>Model:</strong> ${result.model}<br><br>
-                        <strong>Response:</strong><br>${result.response}
-                    </div>
-                `;
+                        <strong>Response:</strong><br><hr style="margin: 5px 0;">
+                        ${result.response}`;
             } catch (error) {
                 responseDiv.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             } finally {

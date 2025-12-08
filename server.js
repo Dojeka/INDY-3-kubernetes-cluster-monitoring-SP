@@ -17,40 +17,35 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const upload = multer({ dest: "uploads/" });
 
+app.options("/api/prompt", cors());
 app.post("/api/prompt", upload.single("image"), (req, res) => {
   const { prompt, model } = req.body;
-  const logEntry = {
-    prompt,
-    model,
-    image: req.file ? req.file.originalname : null,
-    timestamp: new Date().toISOString(),
-  };
+  const args = [path.join(__dirname, "app.py")];
 
-  fs.readFile("log.json", "utf8", (err, data) => {
-    let logs = [];
-    if (!err && data) logs = JSON.parse(data);
-    logs.push(logEntry);
-    fs.writeFile("log.json", JSON.stringify(logs, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "Failed to write log." });
+  if (!prompt || !model) {
+    return res.status(400).json({ error: "Prompt and model are required." });
+  }
 
-      const pythonScript = path.join(__dirname, "app.py");
-      execFile("python3", [pythonScript], (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Execution error: ${error}`);
-          return res.status(500).json({ error: "Python execution failed." });
-        }
-        if (stderr) console.error(`stderr: ${stderr}`);
-        console.log(`stdout: ${stdout}`);
+  if (prompt) {
+    args.push("--prompt", prompt);
+  }
+  if (model) {
+    args.push("--model", model);
+  }
 
-        try {
-          const response = JSON.parse(stdout);
-          console.log(JSON.stringify(response.response))
-          res.send(response);
-        } catch {
-          res.json({ response: stdout || `Prompt logged successfully for model ${model}` });
-        }
-      });
-    });
+  execFile("python3", args, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Execution error: ${error}`);
+      return res.status(500).json({ error: "Python execution failed." });
+    }
+    if (stderr) console.error(`stderr: ${stderr}`);
+
+    try {
+      const response = JSON.parse(stdout);
+      res.send(response);
+    } catch {
+      res.json({ response: stdout || `Prompt logged successfully for model ${model}` });
+    }
   });
 });
 app.listen(5000, () => console.log("Server running on http://localhost:5000"));

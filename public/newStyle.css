@@ -1,0 +1,135 @@
+:root {
+            --main-bg: #f7f9fc;
+            --card-bg: #ffffff;
+            --main-color: #007bff;
+            --user-bubble: #e1ffc7;
+            --ai-bubble: #f0f0f0;
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            background-color: var(--main-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        /* --- Chat Log Styling --- */
+        #chatLog {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 500px; /* Limit chat log height */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message-row {
+            display: flex;
+            width: 100%;
+        }
+        .user .message-row {
+            justify-content: flex-end;
+        }
+        .ai .message-row {
+            justify-content: flex-start;
+        }
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            white-space: pre-wrap; /* Ensures line breaks and spacing from model response are kept */
+        }
+        .user .message-bubble {
+            background-color: var(--user-bubble);
+            color: #333;
+            border-bottom-right-radius: 4px;
+        }
+        .ai .message-bubble {
+            background-color: var(--ai-bubble);
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+        .loading-text {
+            color: #555;
+            font-style: italic;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+        }
+        /* --- Input Area Styling --- */
+        .input-area {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        .input-area label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9em;
+        }
+        #promptForm {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #textPrompt {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            resize: none;
+            flex-grow: 1;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .controls input[type="file"], .controls select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        #submitButton {
+            background-color: var(--main-color);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            flex-shrink: 0;
+        }
+        #submitButton:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+        #submitButton:disabled {
+            background-color: #a0c9f1;
+            cursor: not-allowed;
+        }

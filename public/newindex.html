@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodal Orchestration Interface</title>
+    <link rel="stylesheet" href="newStyle.css">
+</head>
+<body>
+
+<div class="container">
+        <div class="header">AI Chatbot</div>
+
+        <div id="chatLog">
+            <div class="ai">
+                <div class="message-row">
+                    <div class="message-bubble">Hello! I'm ready to help. Enter your prompt below.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <form id="promptForm">
+                <label for="textPrompt">Type your message:</label>
+                <textarea id="textPrompt" name="prompt" rows="3" required></textarea>
+
+                <div class="controls">
+                    <label for="imageFile">Image (Optional):</label>
+                    <input type="file" id="imageFile" accept="image/*">
+
+                    <div class="model-group">
+                    <label for="modelSelect">Model:</label>
+                    <select id="modelSelect" required>
+                        <option value="llama3.1">Llama (Meta)</option>
+                        <option value="gpt-4">GPT (OpenAI)</option>
+                        <option value="gemini3">Gemini (Google)</option>
+                        <option value="deepseekv3-0324">Deepseek</option>
+                        <option value="phi-3">Phi-3 (Microsoft)</option>
+                    </select>
+                    </div>
+                    <button type="submit" id="submitButton">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="newFrontend.js" defer></script>
+</body>
+</html>
