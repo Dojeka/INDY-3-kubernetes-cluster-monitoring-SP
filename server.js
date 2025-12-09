@@ -18,6 +18,7 @@ app.use(express.json());
 //serve the static files
 app.use(express.static(STATIC_DIR));
 
+//multer to receive form data
 const upload = multer({ dest: "uploads/" });
 
 app.options("/api/prompt", cors());
