@@ -10,7 +10,9 @@ const app = express();
 const PORT  = 5000;
 const STATIC_DIR = path.join(process.cwd(), 'public');
 
+//middleware for allowing domain requests from anywhere 
 app.use(cors());
+//middleware for accepting json data
 app.use(express.json());
 
 //serve the static files
