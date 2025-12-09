@@ -12,14 +12,18 @@ RUN npm install
 
 #Update package list and install Python
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
+    apt-get install -y python3 python3-pip python3-venv && \
     rm -rf /var/lib/apt/lists/*
 
-#Copy python requirements
-COPY requirements.txt ./
+#Create Python virtual Environment
+RUN python3 -m venv /venv
+
+#Activate venv by updating PATH
+ENV PATH="/venv/bin:$PATH"
 
 #Install python dependencies using pip
-RUN pip3 install -r requirements.txt
+COPY requirements.txt ./
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 #Get that application code
 COPY . .
