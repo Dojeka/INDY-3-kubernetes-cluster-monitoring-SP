@@ -5,9 +5,9 @@ import cors from "cors";
 import path from "path";
 import { execFile } from "child_process";
 
+//make sure the static files run when server runs
 const app = express();
 const PORT  = 5000;
-
 const STATIC_DIR = path.join(process.cwd(), 'public');
 
 app.use(cors());
