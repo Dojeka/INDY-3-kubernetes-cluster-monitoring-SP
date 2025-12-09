@@ -15,3 +15,9 @@ source myenv/bin/activate
 
 Run in terminal to Deactivate PVE:
 deactivate
+
+To containerize using Docker(run in project terminal):
+docker build -t multimodal-orchestration .
+
+If you already have an LLM installed with OLLAMA:
+docker run --network host multimodal-orchestration
