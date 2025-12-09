@@ -21,3 +21,6 @@ docker build -t multimodal-orchestration .
 
 If you already have an LLM installed with OLLAMA:
 docker run --network host multimodal-orchestration
+
+If you want to share on a local network:
+docker run -p 5000:5000 multimodal-orchestration
