@@ -23,9 +23,10 @@ const upload = multer({ dest: "uploads/" });
 
 app.options("/api/prompt", cors());
 app.post("/api/prompt", upload.single("image"), (req, res) => {
+  
+  //receive arguments from frontend and prepare to deliver to the python app
   const { prompt, model } = req.body;
   const args = [path.join(process.cwd(), "app.py")];
-
   if (!prompt || !model) {
     return res.status(400).json({ error: "Prompt and model are required." });
   }
@@ -37,6 +38,7 @@ app.post("/api/prompt", upload.single("image"), (req, res) => {
     args.push("--model", model);
   }
 
+  //run the python app given prompt and model and/or image
   execFile("python3", args, (error, stdout, stderr) => {
     if (error) {
       console.error(`Execution error: ${error}`);
