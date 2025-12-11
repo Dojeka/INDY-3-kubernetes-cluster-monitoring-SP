@@ -7,7 +7,7 @@ import { execFile } from "child_process";
 
 //make sure the static files run when server runs
 const app = express();
-const PORT  = 5000;
+const PORT  = 8080;
 const STATIC_DIR = path.join(process.cwd(), 'public');
 
 //middleware for allowing domain requests from anywhere 
@@ -54,4 +54,4 @@ app.post("/api/prompt", upload.single("image"), (req, res) => {
     }
   });
 });
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(`Server running on http://0.0.0.0:${PORT}`));

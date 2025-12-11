@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {            const form = do
                     formData.append("image", file);
                 }
                 try {
-                    const response = await fetch("http://localhost:5000/api/prompt", {
+                    const response = await fetch("http://192.168.1.192:8080/api/prompt", {
                         method: "POST",
                         body: formData,
                     });

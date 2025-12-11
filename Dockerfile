@@ -29,7 +29,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . .
 
 #Expose the Node server port
-EXPOSE 5000
+EXPOSE 8080
 
 #Run that Node.js server
 CMD ["node", "server.js"]
